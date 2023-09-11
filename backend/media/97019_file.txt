@@ -1,0 +1,24 @@
+u«Zµìmþ™ZŠvÚ±î¸{
+  "people": [
+    {
+      "Name": "Jennifer Smith",
+      "Contact Number": 7867567898,
+      "Email": "jen123@gmail.com",
+      "Hobbies": [
+        "Reading",
+        "Sketching",
+        "Horse Riding"
+      ]
+    },
+    {
+      "Name": "Vinston Trump",
+      "Contact Number": 7772221122,
+      "Email": "america@gmail.com",
+      "Hobbies": [
+        "sleeping",
+        "drinking",
+        "watching TV"
+      ]
+    }
+  ]
+}
