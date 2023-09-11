@@ -1,6 +1,25 @@
 ## Запуск приложения
-
-
+```bash
+git clone https://github.com/Dh-Kh/python-test-dzenCode.git
+```
+Запуск используя Docker
+```bash
+docker-compose build 
+docker-compose up
+```
+Стандартный запуск:
+cd backend
+```bash
+python -m venv venv
+venv/Scripts/activate
+pip install -r requirements.txt
+python manage.py runserver
+```
+cd frontend
+```bash
+npm install
+npm start
+```
 
 ## Backend
 Backend написан на DRF. За обмен сообщениями отвечают вебсокеты, система 
