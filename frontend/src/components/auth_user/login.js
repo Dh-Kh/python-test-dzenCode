@@ -10,12 +10,19 @@ function LoginForm() {
     const navigate = useNavigate();
     const onSubmit = async (data) => {
         try {
-            const response_login = await axios.post("http://127.0.0.1:8000/api/login_model/", data)
+            const response_login = await axios.post("http://localhost:8000/api/login_model/", data)
             if (response_login.status === 200) {
+                console.log("I am here");
                 const { access, refresh } = await response_login.data;
                 localStorage.setItem('access', access);
                 localStorage.setItem('refresh', refresh);
-                navigate("/home_page");
+                try {
+                  navigate("/home_page");
+                } catch (error) {
+                    console.error("Navigation error:", error);
+                }
+            } else {
+                console.log(response_login.status);
             }
         } catch (error) {
             console.error(error.response);

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from .models import UserFields, RecordFields
+from .models import UserModel, RecordModel
 from django.db import IntegrityError
 
 class ReceiveTokensSerializer(TokenObtainPairSerializer):
@@ -11,14 +11,14 @@ class ReceiveTokensSerializer(TokenObtainPairSerializer):
         
 class RegisterModelSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UserFields
+        model = UserModel
         fields = ("username", "email", "password")
         extra_kwargs = {
             "password": {"write_only": True}
         }
     def create(self, validated_data):
         try:
-            user_fields = UserFields.objects.create(username=validated_data["username"],
+            user_fields = UserModel.objects.create(username=validated_data["username"],
                         email=validated_data["email"],
                         password=validated_data["password"])
         
@@ -28,12 +28,12 @@ class RegisterModelSerializer(serializers.ModelSerializer):
 
 class UserFieldsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = UserFields
-        fields = ("username", "email")
+        model = UserModel
+        fields = ("id", "username", "email")
 
-class RecordFieldsSerializer(serializers.ModelSerializer):
+class RecordModelSerializer(serializers.ModelSerializer):
     class Meta:
-        model = RecordFields
+        model = RecordModel
         fields = "__all__"
         
     

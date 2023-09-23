@@ -1,0 +1,15 @@
+[flake8]
+exclude =
+    .git,
+    __pycache__,
+    migrations,
+    Dockerfile,
+    .gitignore,
+    venv,
+    media,
+    project_data,
+    db.sqlite3,
+    manage.py,
+    *.pyc
+max-line-length = 120
+ignore = E402,E501

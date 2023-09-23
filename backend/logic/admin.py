@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import UserFields, RecordFields
+from .models import UserModel, RecordModel
 
-admin.site.register(UserFields)
-admin.site.register(RecordFields)
+admin.site.register(UserModel)
+admin.site.register(RecordModel)

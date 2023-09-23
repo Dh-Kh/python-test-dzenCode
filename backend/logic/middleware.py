@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AnonymousUser
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from rest_framework_simplejwt.tokens import UntypedToken
-from .models import UserFields
+from .models import UserModel
 from channels.middleware import BaseMiddleware
 from channels.auth import AuthMiddlewareStack
 from django.db import close_old_connections
@@ -16,7 +16,7 @@ def get_user(validated_token):
     try:
         user = get_user_model().objects.get(id=validated_token["user_id"])
         return user
-    except UserFields.DoesNotExist:
+    except UserModel.DoesNotExist:
         return AnonymousUser()
 
 class JwtAuthMiddleware(BaseMiddleware):

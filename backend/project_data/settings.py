@@ -29,7 +29,11 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    #"backend-rzjtsk6dqq-uc.a.run.app"
+    "127.0.0.1",
+    "localhost"
+]
 
 
 # Application definition
@@ -94,11 +98,8 @@ ASGI_APPLICATION = 'project_data.asgi.application'
 
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("redis", 6379)],
-        },
-    },
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+    }
 }
 
 SIMPLE_JWT = {
@@ -155,7 +156,7 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = "logic.UserFields"
+AUTH_USER_MODEL = "logic.UserModel"
 
 
 # Password validation

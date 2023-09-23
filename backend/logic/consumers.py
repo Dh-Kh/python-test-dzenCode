@@ -2,7 +2,7 @@ from django.core.files.base import ContentFile
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.conf import settings
 from channels.db import database_sync_to_async
-from .models import RecordFields
+from .models import RecordModel
 from random import randint
 import json
 import base64
@@ -32,7 +32,6 @@ class CommentsConsumer(AsyncWebsocketConsumer):
          user_data = {
              "username": self.user.username, 
              "email": self.user.email,
-             "home_page": self.user.home_page
              }
          
          if photo is not None:
@@ -43,37 +42,39 @@ class CommentsConsumer(AsyncWebsocketConsumer):
          if txt_file is not None:
              txt_file = base64.b64decode(txt_file)
              txt_file = ContentFile(txt_file, name=f"{randint(1, 100000)}_file.txt")
-
+             
+         
          if related_record_id == None:
-             record_data = await database_sync_to_async(RecordFields.objects.create)(
-                 **user_data,
-                 text=text,
-                 photo=photo,
-                 txt_file=txt_file
-                 )
-                 
+             record_data = await database_sync_to_async(RecordModel.objects.create)(
+                     **user_data,
+                     text=text,
+                     photo=photo,
+                     txt_file=txt_file
+                     )
+                     
              await database_sync_to_async(record_data.save)()
              await self.captcha_request()
              await self.channel_layer.group_send(
-                 "comments", {"type": "websocket.send", "text": text, 
-                              "photo": str(photo), "txt_file": str(txt_file)})
+                     "comments", {"type": "websocket.send", "text": text, 
+                                  "photo": str(photo), "txt_file": str(txt_file)})
          else:
-             main_model = await database_sync_to_async(RecordFields.objects.get)(
-                 id=related_record_id)
-             replies_record = await database_sync_to_async(RecordFields.objects.create)(
-                 root_record = main_model,
-                 **user_data,
-                 text=text,
-                 photo=photo,
-                 txt_file=txt_file
-                 )
+             main_model = await database_sync_to_async(RecordModel.objects.get)(
+                     id=related_record_id)
+             replies_record = await database_sync_to_async(RecordModel.objects.create)(
+                     root_record = main_model,
+                     **user_data,
+                     text=text,
+                     photo=photo,
+                     txt_file=txt_file
+                     )
              await database_sync_to_async(replies_record.save)()
              await self.channel_layer.group_send(
-                 "comments", {"type": "websocket_send", 
-                              "related_record": related_record_id, "text": text, 
-                              "photo": str(photo), "txt_file": str(txt_file)})
+                     "comments", {"type": "websocket_send", 
+                                  "related_record": related_record_id, "text": text, 
+                                  "photo": str(photo), "txt_file": str(txt_file)})
          await self.captcha_request()
-
+         
+            
          
     async def captcha_request(self):
         data = {

@@ -68,7 +68,7 @@ function SortedValidation() {
           const formData = new FormData();
           formData.append("attribute_data", textForm.attribute_data);
           formData.append("text_data", textForm.text_data);
-          await api.post('http://127.0.0.1:8000/api/text_form/', formData)
+          await api.post('http://localhost:8000/api/text_form/', formData)
           .then((response) => {
             setSortedRecord(response.data);
           });

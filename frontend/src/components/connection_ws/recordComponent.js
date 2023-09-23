@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import api from '../../auth/api';
 import DOMPurify from 'dompurify';
 import "./style_ws.css"
@@ -8,6 +8,7 @@ function RecordComponent() {
     
     const [recordData, setRecordData] = useState([]);
     const [recordID, setRecordID] = useState(null);
+    const [imageDisplay, setImageDisplay] = useState(null);
     const recordClick = (e) => {
         setRecordID(e);
     }
@@ -17,7 +18,7 @@ function RecordComponent() {
     }
     const readTxtFile = (value) => {
       if (value) {
-        fetch(`http://localhost:8000${value}`)
+        fetch(`http://localhost:8000/${value}`)
           .then((response) => response.text())
           .then((data) => alert(data))
           .catch((error) => console.error(error));
@@ -42,7 +43,7 @@ function RecordComponent() {
                     <div className="card-content" key={data.id} onClick={() => recordClick(data.id)}>
                     <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(data.text) }} />
                       {data.photo && (
-                        <img src={`http://localhost:8000${data.photo}`} />
+                        <img src={`${data.photo}`} />
                        )}
                     </div>
                     <div>

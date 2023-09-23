@@ -11,10 +11,10 @@ function RegisterForm() {
     const navigate = useNavigate();
     const onSubmit = async (data) => {
         try {
-            const response_register = await axios.post("http://127.0.0.1:8000/api/register_model/", data)
+            const response_register = await axios.post("http://localhost:8000/api/register_model/", data)
             if (response_register.status === 201) {
                 try {
-                    const response_login = await axios.post("http://127.0.0.1:8000/api/login_model/", {
+                    const response_login = await axios.post("http://localhost:8000/api/login_model/", {
                         username: data.username,
                         password: data.password
                     })
@@ -23,6 +23,8 @@ function RegisterForm() {
                         localStorage.setItem('access', access);
 				                localStorage.setItem('refresh', refresh);
                         navigate("/home_page");
+                    } else{
+                      console.log(response_login.status);
                     }
                 } catch (error) {
                     console.error(error);
